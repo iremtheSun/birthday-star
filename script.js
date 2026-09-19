@@ -17,20 +17,12 @@ const supabaseClient = supabase.createClient(
 // =========================
 
 const people = [
-    {
-        name: "Ash",
-        symbol: "🪐"
-    },
 
     {
-        name: "Lily",
+        name: "Hidden Society",
         symbol: "🌙"
     },
 
-    {
-        name: "Jeonghan",
-        symbol: "⭐"
-    }
 ];
 
 
