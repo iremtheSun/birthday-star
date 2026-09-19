@@ -1,0 +1,268 @@
+body {
+    margin: 0;
+    height: 100vh;
+    background: #050816;
+    color: white;
+    font-family: Arial, sans-serif;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    font-size: 40px;
+    text-align: center;
+}
+
+.star {
+    position: absolute;
+    z-index: 1;
+
+    font-size: 30px;
+    color: white;
+
+    cursor: pointer;
+
+    animation: twinkle 2s infinite alternate;
+
+    text-shadow: 0 0 10px white;
+}
+
+@keyframes twinkle {
+    from {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+.shooting-star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+
+    box-shadow: 0 0 25spx white;
+
+    transform: rotate(-45deg);
+
+    animation: shooting 1.5s linear forwards;
+}
+.shooting-star::after {
+    content: "";
+    position: absolute;
+
+    width: 100px;
+    height: 2px;
+
+    background: linear-gradient(to left, white, transparent);
+
+    right: 3px;
+    top: 1px;
+}
+
+@keyframes shooting {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) rotate(-45deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-300px, 300px) rotate(-45deg);
+    }
+}
+
+.intro {
+    position: relative;
+    z-index: 100;
+
+    text-align: center;
+
+    transition: opacity 1s ease;
+}
+
+.intro h1 {
+    font-size: 42px;
+    font-weight: normal;
+    letter-spacing: 3px;
+
+    margin-bottom: 10px;
+}
+
+.intro p {
+    font-size: 20px;
+    letter-spacing: 4px;
+    opacity: 0.8;
+
+    margin-bottom: 40px;
+}
+
+#enterButton {
+    padding: 12px 30px;
+
+    background: transparent;
+    color: white;
+
+    border: 1px solid white;
+    border-radius: 30px;
+
+    font-size: 14px;
+    letter-spacing: 3px;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+#enterButton:hover {
+    background: white;
+    color: #050816;
+
+    box-shadow: 0 0 20px white;
+}
+.intro {
+    z-index: 100;
+}
+
+.special-star {
+    position: absolute;
+    z-index: 200;
+
+    font-size: 30px;
+    color: #fff3a6;
+
+    cursor: pointer;
+
+    text-shadow:
+        0 0 8px #fff3a6,
+        0 0 18px #ffe875,
+        0 0 30px rgba(255, 232, 117, 0.5);
+
+    animation: specialTwinkle 2s infinite alternate;
+}
+
+@keyframes specialTwinkle {
+    from {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+
+    to {
+        transform: scale(1.15);
+        opacity: 0.9;
+    }
+}
+
+.message-box {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 300;
+
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.message-content {
+    position: relative;
+
+    width: 350px;
+    padding: 40px;
+
+    background: rgba(10, 15, 40, 0.9);
+
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+
+    box-shadow:
+        0 0 20px rgba(255, 255, 255, 0.2),
+        0 0 60px rgba(255, 255, 255, 0.1);
+
+    text-align: center;
+}
+
+#messageText {
+    margin: 0;
+
+    font-size: 18px;
+    line-height: 1.7;
+
+    color: white;
+}
+
+#closeMessage {
+    position: absolute;
+
+    top: 10px;
+    right: 15px;
+
+    border: none;
+    background: none;
+
+    color: white;
+
+    font-size: 25px;
+
+    cursor: pointer;
+}
+
+.star-line {
+    position: fixed;
+
+    height: 1px;
+
+    background: rgba(255, 245, 180, 0.35);
+
+    transform-origin: left center;
+
+    z-index: 0;
+
+    pointer-events: none;
+
+    box-shadow: 0 0 5px rgba(255, 245, 180, 0.3);
+
+    animation: lineAppear 1.5s ease forwards;
+}
+
+@keyframes lineAppear {
+    from {
+        opacity: 0;
+        clip-path: inset(0 100% 0 0);
+    }
+
+    to {
+        opacity: 1;
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+.final-message {
+    width: 500px;
+    padding: 55px 45px;
+
+    background: rgba(10, 15, 40, 0.95);
+
+    border: 1px solid rgba(255, 245, 180, 0.7);
+    border-radius: 25px;
+
+    box-shadow:
+        0 0 30px rgba(255, 245, 180, 0.25),
+        0 0 80px rgba(255, 245, 180, 0.15);
+
+    transform: scale(1.05);
+}
+
+.final-message #messageText {
+    font-size: 24px;
+    line-height: 1.8;
+    letter-spacing: 1px;
+}
