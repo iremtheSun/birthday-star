@@ -1,4 +1,45 @@
+// =========================
+// SUPABASE
+// =========================
+
+const supabaseUrl = "https://bpngatbffexfiskxajsy.supabase.co";
+
+const supabaseKey = "sb_publishable_w0uCFcahHiKxGVtBiOopLw_bjUBaQ4s";
+
+const supabaseClient = supabase.createClient(
+    supabaseUrl,
+    supabaseKey
+);
+
+
+// =========================
+// PEOPLE / LITTLE WORLDS
+// =========================
+
+const people = [
+    {
+        name: "Ash",
+        symbol: "🪐"
+    },
+
+    {
+        name: "Lily",
+        symbol: "🌙"
+    },
+
+    {
+        name: "Jeonghan",
+        symbol: "⭐"
+    }
+];
+
+
+// =========================
+// BACKGROUND STARS
+// =========================
+
 for (let i = 0; i < 30; i++) {
+
     const star = document.createElement("div");
 
     star.classList.add("star");
@@ -8,15 +49,23 @@ for (let i = 0; i < 30; i++) {
     star.style.left = Math.random() * 100 + "%";
 
     const size = Math.random() * 20 + 10;
+
     star.style.fontSize = size + "px";
 
     const duration = Math.random() * 3 + 1;
+
     star.style.animationDuration = duration + "s";
 
     document.body.appendChild(star);
 }
 
+
+// =========================
+// SHOOTING STARS
+// =========================
+
 function createShootingStar() {
+
     const shootingStar = document.createElement("div");
 
     shootingStar.classList.add("shooting-star");
@@ -33,198 +82,334 @@ function createShootingStar() {
 
 setInterval(createShootingStar, 3000);
 
+
+// =========================
+// ELEMENTS
+// =========================
+
 const enterButton = document.getElementById("enterButton");
+
 const intro = document.querySelector(".intro");
 
+const galaxyScreen = document.getElementById("galaxyScreen");
+
+const skyScreen = document.getElementById("skyScreen");
+
+const planetsContainer = document.getElementById("planets");
+
+const backToGalaxy = document.getElementById("backToGalaxy");
+
+const personSubtitle = document.getElementById("personSubtitle");
+
+const noteSection = document.querySelector(".note-section");
+
+const noteTitle = document.getElementById("noteTitle");
+
+const messageBox = document.getElementById("messageBox");
+
+const messageText = document.getElementById("messageText");
+
+const closeMessage = document.getElementById("closeMessage");
+
+const nameInput = document.getElementById("nameInput");
+
+const noteInput = document.getElementById("noteInput");
+
+const sendNote = document.getElementById("sendNote");
+
+
+// =========================
+// CURRENT PERSON
+// =========================
+
+let currentPerson = null;
+
+
+// =========================
+// CREATE PLANETS
+// =========================
+
+function createPlanets() {
+
+    planetsContainer.innerHTML = "";
+
+    people.forEach((person) => {
+
+        const planetCard = document.createElement("div");
+
+        planetCard.classList.add("planet-card");
+
+
+        const planet = document.createElement("div");
+
+        planet.classList.add("planet");
+
+        planet.textContent = person.symbol;
+
+
+        const name = document.createElement("p");
+
+        name.textContent = person.name;
+
+
+        planetCard.appendChild(planet);
+        planetCard.appendChild(name);
+
+        planetsContainer.appendChild(planetCard);
+
+
+        planetCard.addEventListener("click", () => {
+
+            openPersonSky(person);
+
+        });
+
+    });
+
+}
+
+createPlanets();
+
+
+// =========================
+// ENTER GALAXY
+// =========================
+
 enterButton.addEventListener("click", () => {
+
     intro.style.opacity = "0";
 
     setTimeout(() => {
+
         intro.style.display = "none";
+
+        galaxyScreen.style.display = "block";
+
     }, 1000);
+
 });
 
-const specialStar = document.createElement("div");
 
-specialStar.classList.add("special-star");
+// =========================
+// OPEN PERSON'S SKY
+// =========================
 
-specialStar.textContent = "✦";
+function openPersonSky(person) {
 
-specialStar.style.top = "35%";
-specialStar.style.left = "70%";
+    currentPerson = person;
 
-document.body.appendChild(specialStar);
+    galaxyScreen.style.display = "none";
 
-const specialStar2 = document.createElement("div");
+    skyScreen.style.display = "block";
 
-specialStar2.classList.add("special-star");
 
-specialStar2.textContent = "✦";
+    personSubtitle.textContent =
+        `${person.name}'s little piece of the sky ✦`;
 
-specialStar2.style.top = "65%";
-specialStar2.style.left = "25%";
 
-document.body.appendChild(specialStar2);
+    noteTitle.textContent =
+        `Leave a little note for ${person.name} ✦`;
 
-const specialStar3 = document.createElement("div");
 
-specialStar3.classList.add("special-star");
+    noteSection.style.display = "block";
 
-specialStar3.textContent = "✦";
 
-specialStar3.style.top = "25%";
-specialStar3.style.left = "40%";
+    // Eski yıldızları temizle
 
-document.body.appendChild(specialStar3);
+    document
+        .querySelectorAll(".note-star, .note-star-name")
+        .forEach((element) => {
+            element.remove();
+        });
 
-const specialStar4 = document.createElement("div");
 
-specialStar4.classList.add("special-star");
+    // Bu kişiye ait notları getir
 
-specialStar4.textContent = "✦";
+    loadNotes();
 
-specialStar4.style.top = "70%";
-specialStar4.style.left = "65%";
+}
 
-document.body.appendChild(specialStar4);
 
-const specialStar5 = document.createElement("div");
+// =========================
+// BACK TO GALAXY
+// =========================
 
-specialStar5.classList.add("special-star");
+backToGalaxy.addEventListener("click", () => {
 
-specialStar5.textContent = "★";
+    skyScreen.style.display = "none";
 
-specialStar5.style.top = "45%";
-specialStar5.style.left = "15%";
+    galaxyScreen.style.display = "block";
 
-document.body.appendChild(specialStar5);
+    currentPerson = null;
 
-const messageBox = document.getElementById("messageBox");
-const messageText = document.getElementById("messageText");
-const closeMessage = document.getElementById("closeMessage");
-
-specialStar.addEventListener("click", () => {
-    messageText.textContent =
-        "I am really happy that I got to know you, balim. ✨";
-
-    messageBox.style.display = "flex";
-
-    discoveredStars.add("star1");
-    checkConnections();
 });
+
+
+// =========================
+// MESSAGE BOX
+// =========================
 
 closeMessage.addEventListener("click", () => {
+
     messageBox.style.display = "none";
+
 });
 
-specialStar2.addEventListener("click", () => {
-    messageText.textContent =
-        "Always remember to love yourself, too. You deserve it. 🤍";
 
-    messageBox.style.display = "flex";
+// =========================
+// CREATE NOTE STAR
+// =========================
 
-    discoveredStars.add("star2");
-    checkConnections();
-});
+function createNoteStar(note) {
 
-specialStar3.addEventListener("click", () => {
-    messageText.textContent =
-        "Never forget what a kind-hearted person you are. ✨";
+    const star = document.createElement("div");
 
-    messageBox.style.display = "flex";
+    star.classList.add("note-star");
 
-    discoveredStars.add("star3");
-    checkConnections();
-});
+    star.textContent = "★";
 
-specialStar4.addEventListener("click", () => {
-    messageText.textContent =
-        "I hope you always have reasons to smile, even on the hardest days. 🌙";
 
-    messageBox.style.display = "flex";
+    const top = Math.random() * 65 + 15;
 
-    discoveredStars.add("star4");
-    checkConnections();
-});
+    const left = Math.random() * 85 + 5;
 
-specialStar5.addEventListener("click", () => {
-    messageText.textContent =
-        "No matter where life takes you, I hope you never stop being the amazing person you are. 🥹";
 
-    messageBox.style.display = "flex";
+    star.style.top = top + "%";
 
-    discoveredStars.add("star5");
-    checkConnections();
-});
+    star.style.left = left + "%";
 
-function createConnection(star1, star2) {
-    const line = document.createElement("div");
 
-    line.classList.add("star-line");
+    skyScreen.appendChild(star);
 
-    const rect1 = star1.getBoundingClientRect();
-    const rect2 = star2.getBoundingClientRect();
 
-    const x1 = rect1.left + rect1.width / 2;
-    const y1 = rect1.top + rect1.height / 2;
+    const name = document.createElement("div");
 
-    const x2 = rect2.left + rect2.width / 2;
-    const y2 = rect2.top + rect2.height / 2;
+    name.classList.add("note-star-name");
 
-    const distance = Math.sqrt(
-        Math.pow(x2 - x1, 2) +
-        Math.pow(y2 - y1, 2)
-    );
+    name.textContent = "— " + note.name;
 
-    const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
 
-    line.style.width = distance + "px";
-    line.style.left = x1 + "px";
-    line.style.top = y1 + "px";
-    line.style.transform = `rotate(${angle}deg)`;
+    name.style.top = `calc(${top}% + 30px)`;
 
-    document.body.appendChild(line);
-}
+    name.style.left = left + "%";
 
-let discoveredStars = new Set();
-let finalShown = false;
 
-function checkConnections() {
+    skyScreen.appendChild(name);
 
-    if (discoveredStars.has("star5") && discoveredStars.has("star3")) {
-        createConnection(specialStar5, specialStar3);
-    }
 
-    if (discoveredStars.has("star3") && discoveredStars.has("star1")) {
-        createConnection(specialStar3, specialStar);
-    }
+    star.addEventListener("click", () => {
 
-    if (discoveredStars.has("star1") && discoveredStars.has("star4")) {
-        createConnection(specialStar, specialStar4);
-    }
-
-    if (discoveredStars.has("star4") && discoveredStars.has("star2")) {
-        createConnection(specialStar4, specialStar2);
-    }
-
-    if (discoveredStars.has("star2") && discoveredStars.has("star5")) {
-        createConnection(specialStar2, specialStar5);
-    }
-
-    if (discoveredStars.size === 5 && !finalShown) {
-    finalShown = true;
-    showFinalMessage();
-}
-
-}
-
-function showFinalMessage() {
-    setTimeout(() => {
-        messageText.textContent =
-            "I hope that one day, we will finally meet. Until then, I will be happy to have you in my life, even from far away. 🤍🌌";
+        messageText.textContent = note.message;
 
         messageBox.style.display = "flex";
 
-        messageBox.querySelector(".message-content").classList.add("final-message");
-    }, 1800);
+    });
+
+}
+
+
+// =========================
+// SEND NOTE
+// =========================
+
+sendNote.addEventListener("click", async () => {
+
+    if (!currentPerson) {
+        return;
+    }
+
+
+    const name = nameInput.value.trim();
+
+    const message = noteInput.value.trim();
+
+
+    if (!name || !message) {
+
+        alert("Please enter your name and a note. ✨");
+
+        return;
+
+    }
+
+
+    const { error } = await supabaseClient
+        .from("messages")
+        .insert([
+            {
+                name: name,
+                message: message,
+                person: currentPerson.name
+            }
+        ]);
+
+
+    if (error) {
+
+        console.error(error);
+
+        alert("Something went wrong. Please try again. 🌙");
+
+        return;
+
+    }
+
+
+    // Yeni yıldızı oluştur
+
+    createNoteStar({
+        name: name,
+        message: message
+    });
+
+
+    // Formu temizle
+
+    nameInput.value = "";
+
+    noteInput.value = "";
+
+
+    // Formu gizle
+
+    noteSection.style.display = "none";
+
+});
+
+
+// =========================
+// LOAD NOTES
+// =========================
+
+async function loadNotes() {
+
+    if (!currentPerson) {
+        return;
+    }
+
+
+    const { data, error } = await supabaseClient
+        .from("messages")
+        .select("name, message")
+        .eq("person", currentPerson.name);
+
+
+    if (error) {
+
+        console.error(
+            "Notes could not be loaded:",
+            error
+        );
+
+        return;
+
+    }
+
+
+    data.forEach((note) => {
+
+        createNoteStar(note);
+
+    });
+
 }
