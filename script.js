@@ -20,8 +20,14 @@ const people = [
 
     {
         name: "Hidden Society",
-        symbol: "🌙"
+        symbol: "🌒"
     },
+
+        {
+        name: "Raven",
+        symbol: "🐦‍⬛",
+        size: "small"
+    }
 
 ];
 
@@ -30,25 +36,62 @@ const people = [
 // BACKGROUND STARS
 // =========================
 
-for (let i = 0; i < 30; i++) {
+const stars = [];
+
+for (let i = 0; i < 45; i++) {
 
     const star = document.createElement("div");
 
     star.classList.add("star");
     star.textContent = "✦";
 
-    star.style.top = Math.random() * 100 + "%";
-    star.style.left = Math.random() * 100 + "%";
 
-    const size = Math.random() * 20 + 10;
+    let top;
+    let left;
+    let tooClose;
+
+
+    do {
+
+        top = Math.random() * 95;
+        left = Math.random() * 95;
+
+        tooClose = stars.some((position) => {
+
+            const distance = Math.sqrt(
+                Math.pow(top - position.top, 2) +
+                Math.pow(left - position.left, 2)
+            );
+
+            return distance < 7;
+
+        });
+
+    } while (tooClose);
+
+
+    star.style.top = top + "%";
+    star.style.left = left + "%";
+
+
+    const size = Math.random() * 3 + 12;
 
     star.style.fontSize = size + "px";
+
 
     const duration = Math.random() * 3 + 1;
 
     star.style.animationDuration = duration + "s";
 
+
     document.body.appendChild(star);
+
+
+    stars.push({
+        top: top,
+        left: left
+    });
+
 }
 
 
@@ -93,9 +136,19 @@ const backToGalaxy = document.getElementById("backToGalaxy");
 
 const personSubtitle = document.getElementById("personSubtitle");
 
+
 const noteSection = document.querySelector(".note-section");
 
 const noteTitle = document.getElementById("noteTitle");
+
+const worldChoice = document.getElementById("worldChoice");
+
+const leaveNoteChoice = document.getElementById("leaveNoteChoice");
+
+const birthdayChoice = document.getElementById("birthdayChoice");
+
+const worldChoiceTitle = document.getElementById("worldChoiceTitle");
+
 
 const messageBox = document.getElementById("messageBox");
 
@@ -131,6 +184,7 @@ function createPlanets() {
 
         planetCard.classList.add("planet-card");
 
+        planetCard.classList.add(person.size);
 
         const planet = document.createElement("div");
 
@@ -194,6 +248,10 @@ function openPersonSky(person) {
 
     skyScreen.style.display = "block";
 
+    document.querySelector(".person-title").style.display = "none";
+
+    document.querySelector(".person-title").style.display = "block";
+
 
     personSubtitle.textContent =
         `${person.name}'s little piece of the sky ✦`;
@@ -202,8 +260,31 @@ function openPersonSky(person) {
     noteTitle.textContent =
         `Leave a little note for ${person.name} ✦`;
 
+    const hasLeftNote =
+    localStorage.getItem("leftNote_" + person.name) === "true";
 
-    noteSection.style.display = "block";
+
+if (hasLeftNote) {
+
+    worldChoice.style.display = "none";
+
+    noteSection.style.display = "none";
+
+    loadNotes();
+
+} else {
+
+    worldChoice.style.display = "block";
+
+    noteSection.style.display = "none";
+
+}
+    
+
+
+    // Buton yazısını kişiye göre değiştir
+    birthdayChoice.textContent =
+        `🎂 I'm ${person.name}`;
 
 
     // Eski yıldızları temizle
@@ -214,12 +295,30 @@ function openPersonSky(person) {
             element.remove();
         });
 
+}
 
-    // Bu kişiye ait notları getir
+// =========================
+// WORLD CHOICE BUTTONS
+// =========================
+
+leaveNoteChoice.addEventListener("click", () => {
+
+    worldChoice.style.display = "none";
+
+    noteSection.style.display = "block";
+
+});
+
+
+birthdayChoice.addEventListener("click", () => {
+
+    worldChoice.style.display = "none";
+
+    noteSection.style.display = "none";
 
     loadNotes();
 
-}
+});
 
 
 // =========================
@@ -291,9 +390,12 @@ function createNoteStar(note) {
 
     star.addEventListener("click", () => {
 
-        messageText.textContent = note.message;
+    document.querySelector(".person-title h1").style.display = "none";
+    document.querySelector(".person-title p").style.display = "none";
 
-        messageBox.style.display = "flex";
+    messageText.textContent = note.message;
+
+    messageBox.style.display = "flex";
 
     });
 
@@ -365,6 +467,11 @@ sendNote.addEventListener("click", async () => {
     // Formu gizle
 
     noteSection.style.display = "none";
+
+    localStorage.setItem(
+    "leftNote_" + currentPerson.name,
+    "true"
+    );
 
 });
 

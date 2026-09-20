@@ -21,20 +21,11 @@ body {
     z-index: 1;
     color: white;
     cursor: pointer;
+
+    font-size: 10px;
+
     animation: twinkle 2s infinite alternate;
     text-shadow: 0 0 10px white;
-}
-
-@keyframes twinkle {
-    from {
-        opacity: 0.3;
-        transform: scale(0.8);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1.2);
-    }
 }
 
 
@@ -168,14 +159,10 @@ body {
 
 .planets {
     width: min(900px, 90%);
+    height: 500px;
     margin: 0 auto;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-
-    gap: 60px;
+    position: relative;
 }
 
 .planet-card {
@@ -186,6 +173,8 @@ body {
     align-items: center;
 
     cursor: pointer;
+
+    position: absolute;
 
     transition:
         transform 0.4s ease,
@@ -212,6 +201,14 @@ body {
 
 .planet-card:hover .planet {
     transform: rotate(8deg) scale(1.1);
+}
+
+.planet-card.small .planet {
+    font-size: 55px;
+}
+
+.planet-card.large .planet {
+    font-size: 75px;
 }
 
 .planet-card p {
@@ -544,4 +541,85 @@ body {
         left: 15px;
     }
 
+}
+
+/* =========================
+   WORLD CHOICE
+========================= */
+
+.world-choice {
+    display: none;
+
+    width: min(350px, 85%);
+    margin: 50px auto 0;
+
+    text-align: center;
+}
+
+.world-choice h2 {
+    font-size: 18px;
+    font-weight: normal;
+    letter-spacing: 1px;
+
+    margin-bottom: 25px;
+}
+
+.world-choice button {
+    display: block;
+
+    width: 100%;
+
+    padding: 13px 20px;
+    margin-bottom: 12px;
+
+    background: transparent;
+    color: white;
+
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 25px;
+
+    font-size: 13px;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+.world-choice button:hover {
+    background: rgba(255, 255, 255, 0.08);
+
+    border-color: rgba(255, 255, 255, 0.8);
+
+    box-shadow:
+        0 0 18px rgba(255, 255, 255, 0.15);
+}
+
+/* =========================
+   PLANET POSITIONS
+========================= */
+
+.planet-card.large {
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+}
+
+.planet-card.small {
+    left: 68%;
+    top: 28%;
+
+    transform: translate(-50%, -50%);
+}
+
+
+/* Planet sizes */
+
+.planet-card.large .planet {
+    font-size: 68px;
+}
+
+.planet-card.small .planet {
+    font-size: 48px;
 }
