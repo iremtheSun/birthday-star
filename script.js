@@ -27,6 +27,7 @@ const people = [
         name: "Raven",
         symbol: "🐦‍⬛",
         size: "small"
+        
     },
 
         {
@@ -180,6 +181,7 @@ const sendNote = document.getElementById("sendNote");
 // =========================
 
 let currentPerson = null;
+let surpriseTimer = null;
 
 
 // =========================
@@ -302,17 +304,12 @@ function openPersonSky(person) {
     currentPerson = person;
 
     galaxyScreen.style.display = "none";
-
     skyScreen.style.display = "block";
 
     document.querySelector(".person-title").style.display = "none";
 
-    document.querySelector(".person-title").style.display = "block";
-
-
     personSubtitle.textContent =
         `${person.name}'s little piece of the sky ✦`;
-
 
     noteTitle.textContent =
         `Leave a little note for ${person.name} ✦`;
@@ -325,24 +322,15 @@ function openPersonSky(person) {
 
     worldChoice.style.display = "block";
     noteSection.style.display = "none";
+    birthdaySurprise.style.display = "none";
 
-    loadNotes();
+    if (surpriseTimer) {
+        clearTimeout(surpriseTimer);
+        surpriseTimer = null;
+    }
 
-
-
-    // Buton yazısını kişiye göre değiştir
     birthdayChoice.textContent =
         `🎂 I'm ${person.name}`;
-
-
-    // Eski yıldızları temizle
-
-    document
-        .querySelectorAll(".note-star, .note-star-name")
-        .forEach((element) => {
-            element.remove();
-        });
-
 }
 
 // =========================
@@ -357,14 +345,97 @@ leaveNoteChoice.addEventListener("click", () => {
 
 });
 
+function createConfetti() {
+
+    document
+        .querySelectorAll(".confetti-piece")
+        .forEach((piece) => piece.remove());
+
+    const colors = [
+        "#ff4d6d",
+        "#ffd166",
+        "#4cc9f0",
+        "#c77dff",
+        "#80ed99"
+    ];
+
+    for (let i = 0; i < 100; i++) {
+
+        const confetti = document.createElement("div");
+
+        confetti.classList.add("confetti-piece");
+
+        confetti.style.left = "50%";
+        confetti.style.top = "50%";
+
+        confetti.style.background =
+            colors[Math.floor(Math.random() * colors.length)];
+
+        const angle =
+            Math.random() * Math.PI * 2;
+
+        const distance =
+            150 + Math.random() * 350;
+
+        const x =
+            Math.cos(angle) * distance;
+
+        const y =
+            Math.sin(angle) * distance;
+
+        confetti.style.setProperty(
+            "--x",
+            x + "px"
+        );
+
+        confetti.style.setProperty(
+            "--y",
+            y + "px"
+        );
+
+        confetti.style.animationDelay =
+            Math.random() * 0.2 + "s";
+
+        document.body.appendChild(confetti);
+    }
+}
 
 birthdayChoice.addEventListener("click", () => {
 
     worldChoice.style.display = "none";
-
     noteSection.style.display = "none";
 
-    loadNotes();
+    if (currentPerson.name === "Hidden Society") {
+        loadNotes();
+        return;
+    }
+    
+    createConfetti();
+
+    const birthdaySurprise =
+        document.getElementById("birthdaySurprise");
+
+    const surpriseText =
+        document.getElementById("surpriseText");
+
+    surpriseText.textContent =
+        `Happy Birthday, ${currentPerson.name}! ✦`;
+
+    birthdaySurprise.style.display = "block";
+
+    if (surpriseTimer) {
+        clearTimeout(surpriseTimer);
+    }
+
+    surpriseTimer = setTimeout(() => {
+
+        birthdaySurprise.style.display = "none";
+
+        loadNotes();
+
+        surpriseTimer = null;
+
+    }, 2500);
 
 });
 
@@ -499,10 +570,6 @@ sendNote.addEventListener("click", async () => {
 
     // Yeni yıldızı oluştur
 
-    createNoteStar({
-        name: name,
-        message: message
-    });
 
 
     // Formu temizle
@@ -515,7 +582,7 @@ sendNote.addEventListener("click", async () => {
     // Formu gizle
 
     noteSection.style.display = "none";
-
+    loadNotes();
 
 
 });
