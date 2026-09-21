@@ -160,6 +160,7 @@ const leaveNoteChoice = document.getElementById("leaveNoteChoice");
 
 const birthdayChoice = document.getElementById("birthdayChoice");
 
+
 const worldChoiceTitle = document.getElementById("worldChoiceTitle");
 
 
@@ -303,6 +304,11 @@ function openPersonSky(person) {
 
     currentPerson = person;
 
+    const player = document.getElementById("youtubePlayer");
+
+    player.src =
+        "https://www.youtube.com/embed/aPnVbY0_DzM?autoplay=1";
+
     galaxyScreen.style.display = "none";
     skyScreen.style.display = "block";
 
@@ -405,12 +411,15 @@ birthdayChoice.addEventListener("click", () => {
     worldChoice.style.display = "none";
     noteSection.style.display = "none";
 
+
     if (currentPerson.name === "Hidden Society") {
         loadNotes();
         return;
     }
     
     createConfetti();
+
+
 
     const birthdaySurprise =
         document.getElementById("birthdaySurprise");
