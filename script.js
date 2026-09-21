@@ -317,26 +317,10 @@ function openPersonSky(person) {
     noteTitle.textContent =
         `Leave a little note for ${person.name} ✦`;
 
-    const hasLeftNote =
-    localStorage.getItem("leftNote_" + person.name) === "true";
-
-
-if (hasLeftNote) {
-
-    worldChoice.style.display = "none";
-
-    noteSection.style.display = "none";
-
-    loadNotes();
-
-} else {
-
     worldChoice.style.display = "block";
-
     noteSection.style.display = "none";
+    loadNotes();    
 
-}
-    
 
 
     // Buton yazısını kişiye göre değiştir
@@ -525,10 +509,7 @@ sendNote.addEventListener("click", async () => {
 
     noteSection.style.display = "none";
 
-    localStorage.setItem(
-    "leftNote_" + currentPerson.name,
-    "true"
-    );
+
 
 });
 
