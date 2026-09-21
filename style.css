@@ -181,6 +181,8 @@ body {
         filter 0.4s ease;
 }
 
+
+
 .planet-card:hover {
     transform: translateY(-10px) scale(1.05);
     filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.5));
@@ -195,6 +197,8 @@ body {
 
     width: 110px;
     height: 110px;
+
+    line-height: 1;
 
     transition: transform 0.4s ease;
 }
@@ -622,4 +626,8 @@ body {
 
 .planet-card.small .planet {
     font-size: 48px;
+}
+
+.planet-card p {
+    transform: translateY(-40px);
 }

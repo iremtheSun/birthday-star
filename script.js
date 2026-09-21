@@ -27,6 +27,18 @@ const people = [
         name: "Raven",
         symbol: "🐦‍⬛",
         size: "small"
+    },
+
+        {
+        name: "Shadow",
+        symbol: "🌑",
+        size: "small"
+    },
+
+    {
+        name: "Shapeshifter",
+        symbol: "🦋",
+        size: "small"
     }
 
 ];
@@ -178,18 +190,17 @@ function createPlanets() {
 
     planetsContainer.innerHTML = "";
 
-    people.forEach((person) => {
+    people.forEach((person, index) => {
 
         const planetCard = document.createElement("div");
 
         planetCard.classList.add("planet-card");
-
         planetCard.classList.add(person.size);
+
 
         const planet = document.createElement("div");
 
         planet.classList.add("planet");
-
         planet.textContent = person.symbol;
 
 
@@ -202,6 +213,52 @@ function createPlanets() {
         planetCard.appendChild(name);
 
         planetsContainer.appendChild(planetCard);
+
+
+        // =========================
+        // AUTOMATIC PLANET POSITION
+        // =========================
+
+        if (index === 0) {
+
+            // Hidden Society → center
+
+            planetCard.style.left = "50%";
+            planetCard.style.top = "50%";
+
+            planetCard.style.transform =
+                "translate(-50%, -50%)";
+
+            planet.style.fontSize = "28px";
+
+        } else {
+
+            // Other worlds → around the center
+
+            const otherWorlds = people.length - 1;
+
+            const angle =
+                ((index - 1) / otherWorlds) * Math.PI * 2
+                - Math.PI / 2;
+
+            const radiusX = 32;
+            const radiusY = 35;
+
+            const left =
+                50 + Math.cos(angle) * radiusX;
+
+            const top =
+                50 + Math.sin(angle) * radiusY;
+
+
+            planetCard.style.left = left + "%";
+            planetCard.style.top = top + "%";
+
+            planetCard.style.transform =
+                "translate(-50%, -50%)";
+
+            planet.style.fontSize = "18px";
+        }
 
 
         planetCard.addEventListener("click", () => {
