@@ -317,9 +317,16 @@ function openPersonSky(person) {
     noteTitle.textContent =
         `Leave a little note for ${person.name} ✦`;
 
+    document
+        .querySelectorAll(".note-star, .note-star-name")
+        .forEach((element) => {
+            element.remove();
+        });
+
     worldChoice.style.display = "block";
     noteSection.style.display = "none";
-    loadNotes();    
+
+    loadNotes();
 
 
 
